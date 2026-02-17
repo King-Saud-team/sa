@@ -5,22 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فاحص روابط المواقع - جامعة الملك سعود</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script>
-        function checkUrl(event) {
-            event.preventDefault();
-            const url = document.querySelector('input[name="url"]').value;
-            const resultEl = document.querySelector('.result');
-            resultEl.textContent = "🔄 جاري الفحص...";
-
-            fetch("/check_url", {
-                method: "POST",
-                body: new URLSearchParams({url})
-            })
-            .then(response => response.json())
-            .then(data => resultEl.textContent = data.result)
-            .catch(() => resultEl.textContent = "❌ حدث خطأ أثناء الفحص");
-        }
-    </script>
 </head>
 <body>
 
@@ -32,12 +16,12 @@
     <div class="container">
         <h1>🔍 فاحص أمان المواقع</h1>
         <div class="box">
-            <form onsubmit="checkUrl(event)">
+            <form method="POST">
                 <input type="text" name="url" placeholder="أدخل رابط الموقع هنا..." required>
                 <br>
                 <button type="submit">افحص الرابط</button>
             </form>
-            <p class="result"></p>
+            <p class="result">{{ result }}</p>
         </div>
         <footer>تم التصميم من قبل تيم جامعة الملك سعود</footer>
     </div>
