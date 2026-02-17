@@ -4,7 +4,7 @@ import base64
 
 app = Flask(__name__)
 
-# ضع هنا مفتاحك الخاص من VirusTotal
+# ضع مفتاح VirusTotal الخاص بك هنا
 API_KEY = "aa1cabdc4f4c55f6b981e3efcab092f72bd40bc440e69cafb41f928981477542"
 
 @app.route("/", methods=["GET", "POST"])
@@ -14,7 +14,7 @@ def index():
         url_to_check = request.form["url"]
 
         try:
-            # VirusTotal API: URL scan requires encoding
+            # ترميز الرابط لفحصه في VirusTotal
             url_id = base64.urlsafe_b64encode(url_to_check.encode()).decode().strip("=")
 
             analysis_response = requests.get(
