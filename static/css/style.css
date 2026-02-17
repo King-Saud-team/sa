@@ -93,7 +93,7 @@ footer {
     color: #777;
 }
 
-/* استجابة الجوال */
+/* تحسين للجوال */
 @media only screen and (max-width: 480px) {
     h1 { font-size: 22px; }
     .box { padding: 20px 15px; }
