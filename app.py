@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import requests
-import time
+import base64
 
 app = Flask(__name__)
 
@@ -9,44 +9,39 @@ VT_HEADERS = {"x-apikey": API_KEY}
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    result = ""
-    if request.method == "POST":
-        url_to_check = request.form["url"]
+    return render_template("index.html")
 
-        try:
-            # 1️⃣ إرسال الرابط لفحصه في VirusTotal
-            post_response = requests.post(
-                "https://www.virustotal.com/api/v3/urls",
-                headers=VT_HEADERS,
-                data={"url": url_to_check}
-            ).json()
+@app.route("/check_url", methods=["POST"])
+def check_url():
+    url_to_check = request.form.get("url", "")
+    if not url_to_check:
+        return jsonify({"result": "❌ يرجى إدخال رابط"}), 400
 
-            analysis_id = post_response.get("data", {}).get("id")
+    try:
+        # ترميز الرابط لـ Base64 URL-safe
+        url_bytes = url_to_check.encode("utf-8")
+        url_b64 = base64.urlsafe_b64encode(url_bytes).decode().strip("=")
 
-            if not analysis_id:
-                result = "❌ لم يتمكن من إنشاء التحليل"
-            else:
-                # 2️⃣ انتظار ثانيتين ثم طلب نتيجة التحليل النهائي
-                time.sleep(2)
-                analysis_response = requests.get(
-                    f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
-                    headers=VT_HEADERS
-                ).json()
+        # طلب تحليل الرابط
+        analysis_response = requests.get(
+            f"https://www.virustotal.com/api/v3/urls/{url_b64}",
+            headers=VT_HEADERS
+        ).json()
 
-                stats = analysis_response.get("data", {}).get("attributes", {}).get("stats", {})
+        stats = analysis_response.get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
 
-                if stats.get("malicious", 0) > 0 or stats.get("suspicious", 0) > 0:
-                    result = "🚨 الموقع خطر!"
-                elif stats.get("harmless", 0) > 0:
-                    result = "✅ الموقع آمن"
-                else:
-                    result = "❌ لم يتمكن من تحديد حالة الموقع"
+        if stats.get("malicious", 0) > 0 or stats.get("suspicious", 0) > 0:
+            result = "🚨 الموقع خطر!"
+        elif stats.get("harmless", 0) > 0:
+            result = "✅ الموقع آمن"
+        else:
+            result = "❌ لم يتمكن من تحديد حالة الموقع"
 
-        except Exception as e:
-            print(e)
-            result = "❌ حدث خطأ أثناء الفحص"
+        return jsonify({"result": result})
 
-    return render_template("index.html", result=result)
+    except Exception as e:
+        print(e)
+        return jsonify({"result": "❌ حدث خطأ أثناء الفحص"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
