@@ -16,11 +16,13 @@
     <div class="container">
         <h1>🔍 فاحص أمان المواقع</h1>
         <div class="box">
+            <!-- Form يرسل البيانات إلى Flask ليتم الفحص -->
             <form method="POST">
                 <input type="text" name="url" placeholder="أدخل رابط الموقع هنا..." required>
                 <br>
                 <button type="submit">افحص الرابط</button>
             </form>
+            <!-- هنا تظهر نتيجة الفحص من Flask -->
             <p class="result">{{ result }}</p>
         </div>
         <footer>تم التصميم من قبل تيم جامعة الملك سعود</footer>
