@@ -9,15 +9,16 @@ body {
 /* الشعار */
 .logo {
     position: fixed;
-    top: 20px;
-    left: 30px;
+    top: 15px;
+    left: 15px;
     z-index: 1000;
 }
 
 .logo img {
-    width: 120px;
-    max-width: 25vw; /* يجعل الشعار يتقلص على الشاشات الصغيرة */
+    width: 70px;
+    max-width: 15vw;
     height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
 }
 
 /* الحاوية الرئيسية */
@@ -26,44 +27,42 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
-    padding-top: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 20px;
 }
 
 /* العنوان */
 h1 {
-    font-size: 36px;
-    margin-bottom: 30px;
+    font-size: 28px;
+    margin-bottom: 20px;
     color: #006837;
 }
 
 /* مربع الفحص */
 .box {
     background-color: #f4f4f4;
-    padding: 40px 30px;
+    padding: 30px 20px;
     border-radius: 20px;
-    width: 450px;
-    max-width: 90%; /* يجعل الصندوق أصغر على الجوال */
+    width: 100%;
+    max-width: 400px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 /* خانة الإدخال */
 input[type="text"] {
-    width: 90%;
-    padding: 15px;
+    width: 100%;
+    padding: 12px;
     border-radius: 10px;
     border: 1px solid #ccc;
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /* الزر */
 button {
-    width: 60%;
-    max-width: 200px; /* يقلل حجم الزر على الجوال */
+    width: 100%;
+    max-width: 180px;
     padding: 12px;
     border-radius: 10px;
     border: none;
@@ -82,39 +81,23 @@ button:hover {
 
 /* النتيجة */
 .result {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 18px;
     font-weight: bold;
 }
 
 /* الفوتر */
 footer {
-    margin-top: 30px;
+    margin-top: 25px;
     font-size: 14px;
     color: #777;
 }
 
-/* تحسين للجوال */
-@media only screen and (max-width: 600px) {
-    h1 {
-        font-size: 28px;
-    }
-
-    .box {
-        padding: 30px 20px;
-    }
-
-    input[type="text"] {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    button {
-        width: 80%;
-        font-size: 14px;
-    }
-
-    .logo img {
-        width: 80px;
-    }
+/* استجابة الجوال */
+@media only screen and (max-width: 480px) {
+    h1 { font-size: 22px; }
+    .box { padding: 20px 15px; }
+    input[type="text"] { font-size: 14px; padding: 10px; }
+    button { font-size: 14px; padding: 10px; }
+    .logo img { width: 60px; }
 }
