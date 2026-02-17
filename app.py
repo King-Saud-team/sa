@@ -1,14 +1,11 @@
 from flask import Flask, request, render_template
 import requests
-import base64
+import time
 
 app = Flask(__name__)
 
-API_KEY = "aa1cabdc4f4c55f6b981e3efcab092f72bd40bc440e69cafb41f928981477542"  # ضع هنا مفتاح VirusTotal
-
-VT_HEADERS = {
-    "x-apikey": API_KEY
-}
+API_KEY = "aa1cabdc4f4c55f6b981e3efcab092f72bd40bc440e69cafb41f928981477542"
+VT_HEADERS = {"x-apikey": API_KEY}
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -17,25 +14,33 @@ def index():
         url_to_check = request.form["url"]
 
         try:
-            # ترميز الرابط بطريقة Base64 URL-safe بدون padding '='
-            url_bytes = url_to_check.encode("utf-8")
-            url_b64 = base64.urlsafe_b64encode(url_bytes).decode().strip("=")
-
-            # جلب تحليل الرابط من VirusTotal
-            analysis_response = requests.get(
-                f"https://www.virustotal.com/api/v3/urls/{url_b64}",
-                headers=VT_HEADERS
+            # 1️⃣ إرسال الرابط لفحصه في VirusTotal
+            post_response = requests.post(
+                "https://www.virustotal.com/api/v3/urls",
+                headers=VT_HEADERS,
+                data={"url": url_to_check}
             ).json()
 
-            # الحصول على الإحصائيات
-            stats = analysis_response.get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
+            analysis_id = post_response.get("data", {}).get("id")
 
-            if stats.get("malicious", 0) > 0 or stats.get("suspicious", 0) > 0:
-                result = "🚨 الموقع خطر!"
-            elif stats.get("harmless", 0) > 0:
-                result = "✅ الموقع آمن"
+            if not analysis_id:
+                result = "❌ لم يتمكن من إنشاء التحليل"
             else:
-                result = "❌ لم يتمكن من تحديد حالة الموقع"
+                # 2️⃣ انتظار ثانيتين ثم طلب نتيجة التحليل النهائي
+                time.sleep(2)
+                analysis_response = requests.get(
+                    f"https://www.virustotal.com/api/v3/analyses/{analysis_id}",
+                    headers=VT_HEADERS
+                ).json()
+
+                stats = analysis_response.get("data", {}).get("attributes", {}).get("stats", {})
+
+                if stats.get("malicious", 0) > 0 or stats.get("suspicious", 0) > 0:
+                    result = "🚨 الموقع خطر!"
+                elif stats.get("harmless", 0) > 0:
+                    result = "✅ الموقع آمن"
+                else:
+                    result = "❌ لم يتمكن من تحديد حالة الموقع"
 
         except Exception as e:
             print(e)
