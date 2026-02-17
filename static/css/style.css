@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff; /* خلفية بيضاء */
+    color: #333;
+}
+
+/* الشعار */
+.logo {
+    position: fixed;       /* ثابت حتى لو نزلت الصفحة */
+    top: 20px;             /* مسافة من الأعلى */
+    left: 30px;            /* مسافة من اليسار */
+    z-index: 1000;         /* فوق كل العناصر */
+}
+
+.logo img {
+    width: 130px;           /* حجم الشعار */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* ظل خفيف احترافي */
+}
+
+/* الحاوية الرئيسية */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding-top: 60px; /* مسافة لتجنب الشعار */
+}
+
+/* العنوان */
+h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #006837; /* أخضر جامعة الملك سعود */
+}
+
+/* مربع الفحص */
+.box {
+    background-color: #f4f4f4;
+    padding: 50px 40px;
+    border-radius: 20px;
+    width: 450px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* خانة الإدخال */
+input[type="text"] {
+    width: 90%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* الزر */
+button {
+    width: 60%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: #006837;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #004d24;
+    transform: scale(1.05);
+}
+
+/* النتيجة */
+.result {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* الفوتر */
+footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}
