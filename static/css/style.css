@@ -2,21 +2,22 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff; /* خلفية بيضاء */
+    background-color: #ffffff;
     color: #333;
 }
 
 /* الشعار */
 .logo {
-    position: fixed;       /* ثابت حتى لو نزلت الصفحة */
-    top: 20px;             /* مسافة من الأعلى */
-    left: 30px;            /* مسافة من اليسار */
-    z-index: 1000;         /* فوق كل العناصر */
+    position: fixed;
+    top: 20px;
+    left: 30px;
+    z-index: 1000;
 }
 
 .logo img {
-    width: 130px;           /* حجم الشعار */
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* ظل خفيف احترافي */
+    width: 120px;
+    max-width: 25vw; /* يجعل الشعار يتقلص على الشاشات الصغيرة */
+    height: auto;
 }
 
 /* الحاوية الرئيسية */
@@ -27,22 +28,25 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
-    padding-top: 60px; /* مسافة لتجنب الشعار */
+    padding-top: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* العنوان */
 h1 {
     font-size: 36px;
-    margin-bottom: 40px;
-    color: #006837; /* أخضر جامعة الملك سعود */
+    margin-bottom: 30px;
+    color: #006837;
 }
 
 /* مربع الفحص */
 .box {
     background-color: #f4f4f4;
-    padding: 50px 40px;
+    padding: 40px 30px;
     border-radius: 20px;
     width: 450px;
+    max-width: 90%; /* يجعل الصندوق أصغر على الجوال */
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
@@ -59,6 +63,7 @@ input[type="text"] {
 /* الزر */
 button {
     width: 60%;
+    max-width: 200px; /* يقلل حجم الزر على الجوال */
     padding: 12px;
     border-radius: 10px;
     border: none;
@@ -77,14 +82,39 @@ button:hover {
 
 /* النتيجة */
 .result {
-    margin-top: 25px;
-    font-size: 20px;
+    margin-top: 20px;
+    font-size: 18px;
     font-weight: bold;
 }
 
 /* الفوتر */
 footer {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 14px;
     color: #777;
+}
+
+/* تحسين للجوال */
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .box {
+        padding: 30px 20px;
+    }
+
+    input[type="text"] {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    .logo img {
+        width: 80px;
+    }
 }
